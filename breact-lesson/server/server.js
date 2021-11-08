@@ -112,19 +112,19 @@ app.delete('/stock/:id', (req, res) => {
 
 
 
-// GET DISTINCT TYPES
-// app.get('/stock-types', (req, res) => {
-//     const sql = `
-//         SELECT DISTINCT type
-//         FROM stock
-//     `;
-//     con.query(sql, (err, results) => {
-//         if (err) {
-//             throw err;
-//         }
-//         res.send(results);
-//     })
-// })
+// FILTER CHECKBOX CONTENT - GET DISTINCT TYPES 
+app.get('/stock-types', (req, res) => {
+    const sql = `
+        SELECT DISTINCT type
+        FROM stock
+    `;
+    con.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        res.send(results);
+    })
+})
 
 // FILTER - GET DATA BY TYPE
 app.get('/stock-filter/:t', (req, res) => {

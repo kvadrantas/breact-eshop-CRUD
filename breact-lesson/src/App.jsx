@@ -25,16 +25,16 @@ function App () {
     });
 
     // ----------------- FILTERING -----------------
-    // const [types, setTypes] = useState([]);  // filters dropbox options
+    const [types, setTypes] = useState([]);  // filters dropbox options
     const [filterBy, setFilterBy] = useState('');
     
-    // useEffect(() => {
-    //     axios.get('http://localhost:3003/item-types')
-    //         .then(res => {
-    //             setTypes(res.data);
-    //             // console.log(res.data);
-    //         })
-    // }, [lastUpdate])
+    useEffect(() => {
+        axios.get('http://localhost:3003/stock-types')
+            .then(res => {
+                setTypes(res.data);
+                // console.log(res.data);
+            })
+    }, [lastUpdate])
 
     useEffect(() => {
         if (filterBy) {
@@ -46,18 +46,29 @@ function App () {
         }
     }, [filterBy])
 
+
+
     const reset = () => {
         setLastUpdate(Date.now());
     }
 
     // ----------------- SORT -----------------
-    const [sortBy, setSortBy] = useState('');
-    useEffect(() => {
-        if (sortBy) {
-            setItems(Sort(items, sortBy, setFilterBy));
-        }
-        //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortBy])
+        const [sortConditions, setSortConditions] = useState('');
+        useEffect(() => {
+            if (sortConditions) {
+                setItems(Sort(items, sortConditions, setFilterBy));
+            }
+            //eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [sortConditions])
+
+    // ----------------- SORT & FILTER MIX (SORT1) -----------------
+    // const [sortBy, setSortBy] = useState('');
+    // useEffect(() => {
+    //     if (sortBy) {
+    //         setItems(Sort(items, sortBy, setFilterBy));
+    //     }
+    //     //eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [sortBy])
 
     // ----------------- SEARCH -----------------
     const [searchBy, setSearchBy] = useState('');
@@ -122,7 +133,7 @@ function App () {
                     <div className="main">
                         <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal}></Modal>
                         <div className="nav">
-                            <Nav  search={setSearchBy} filter={setFilterBy} sort={setSortBy} reset={reset}></Nav>
+                            <Nav  setSearchBy={setSearchBy} filter={setFilterBy} sortConditions={sortConditions} setSortConditions={setSortConditions} types={types} reset={reset}></Nav>
                             <Create create={create}></Create>
                         </div>
                         <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></List>

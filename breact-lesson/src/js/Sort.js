@@ -1,28 +1,71 @@
-function animalSort(itemss, by, setFilterBy) {
-    let items = itemss.slice();
-    switch (by) {
-        case 'in-stock':
-            setFilterBy('1');
-            // items = items.filter(e => e.instock === 1);
+function Sort(itemss, sortConditions) {
+  
+    const sortDirection = sortConditions.split(',')[0];
+    const byWhat = sortConditions.split(',')[1];
+    
+    const items = itemss.slice();
+    // console.log(sortDirection, byWhat, items)
+
+    switch (sortDirection) {
+        case 'text-asc':
+            items.sort((a, b) => {
+                const textA = a.product.toUpperCase();
+                const textB = b.product.toUpperCase();
+                if (textA < textB) {
+                    return -1;
+                }
+                if (textA > textB) {
+                    return 1;
+                }
+                return 0;
+            });
             break;
-        case 'out-stock':
-            setFilterBy('0');
-            // items = items.filter(e => e.instock === 0);
+        case 'text-desc':
+            items.sort((a, b) => {
+                const textA = a.product.toUpperCase();
+                const textB = b.product.toUpperCase();
+                if (textA < textB) {
+                    return 1;
+                }
+                if (textA > textB) {
+                    return -1;
+                }
+                return 0;
+            });
             break;
         case 'number-asc':
-            setFilterBy('ASC');
-            // items.sort(function(a, b) {
-            //     return a.price - b.price;
-            // });
+            items.sort(function(a, b) {
+                return a[byWhat] - b[byWhat];
+            });
             break;
         case 'number-desc':
-            setFilterBy('DESC');
-            // items.sort(function(a, b) {
-            //     return b.price - a.price;
-            // });
+            items.sort(function(a, b) {
+                return b[byWhat] - a[byWhat];
+            });
+            break;
+        case 'date-asc':
+            items.sort(function(a, b) {
+                return a[byWhat].split('-').join('') - b[byWhat].split('-').join('');
+            });
+            break;
+        case 'date-desc':
+            items.sort(function(a, b) {
+                return  b[byWhat].split('-').join('') - a[byWhat].split('-').join('');
+            });
+            break;
+
+            case 'totalvalue-asc':
+            items.sort(function(a, b) {
+                return a.price*a.quantity - b.price*b.quantity;
+            });
+            break;
+        case 'totalvalue-desc':
+            items.sort(function(a, b) {
+                return  b.price*b.quantity - a.price*a.quantity;
+            });
             break;
         default:
     }
     return items
 }
-export default animalSort;
+export default Sort;

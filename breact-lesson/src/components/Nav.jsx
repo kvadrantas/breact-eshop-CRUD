@@ -1,20 +1,27 @@
 import { useState } from "react";
 
-function Nav({ filter, reset, search, sort}) {
+function Nav({ filter, reset, search, sortConditions, setSortConditions, types}) {
 
-    // const [filterValue, setFilterValue] = useState('');
+// ----------------- FILTER -----------------
+
+    const [filterValue, setFilterValue] = useState('');
     // const [searchValue, setSearchValue] = useState('');
-    const [sortValue, setSortValue] = useState('');
 
-    // const selectFilter = e => {
-    //     setFilterValue(e.target.value);
-    //     filter(e.target.value)
-    // }
-
-    const selectSort = e => {
-        setSortValue(e.target.value);
-        sort(e.target.value)
+    const selectFilter = e => {
+        setFilterValue(e.target.value);
+        filter(e.target.value)
     }
+
+
+// ----------------- SORT -----------------
+    const selectSort = e => {
+        setSortConditions(e.target.value);
+    }
+    
+    // SORT1 & FILTER MIX (SORT1)   
+    // const selectSort = e => {
+    //     setSortConditions(e.target.value);
+    // }
 
     // const handleSearchValue = e => {
     //     // console.log(e)
@@ -25,12 +32,27 @@ function Nav({ filter, reset, search, sort}) {
 
     const resetHandler = () => {
         reset();
-        // setFilterValue('');
+        setFilterValue('');
+        setSortConditions('');
     }
 
     return (
         <div className="main-nav">
             <fieldset>
+                <fieldset>
+    {/* <option value="in-stock">In Stock</option>
+    <option value="out-stock">Out of stock</option> */}
+                    <legend>Filter</legend>
+                    <div className="filter">
+                        <label>By type</label><br></br>
+                        <select onChange={selectFilter} value={filterValue} >
+                            {/* <option value="default"  hidden>Select filter...</option> */}
+                            {
+                                types.map(t => <option key={t.type} value={t.type}>{t.type}</option>)
+                            }
+                        </select>
+                    </div>
+                </fieldset>
                 {/* <fieldset>
                     <legend>Filter</legend>
                     <div className="filter">
@@ -44,17 +66,34 @@ function Nav({ filter, reset, search, sort}) {
                     </div>
                 </fieldset> */}
                 <fieldset>
-                    <legend>Filter</legend>
+                    <legend>Sorting</legend>
                     <div className="sort">
                         <label>Select sort criteria</label><br></br>
-                        <select onChange={selectSort} value={sortValue} >
+                        <select onChange={selectSort} value={sortConditions} >
+                            <option value="default"  hidden>Select sorting...</option>
+                            <option value="text-asc,name">Product name &#8593;</option>
+                            <option value="text-desc,name">Product name &#8595;</option>
+                            <option value="number-asc,quantity">Quantity &#8593;</option>
+                            <option value="number-desc,quantity">Quantity &#8595;</option>
+                            <option value="number-asc,price">Price &#8593;</option>
+                            <option value="number-desc,price">Price &#8595;</option>
+                            <option value="totalvalue-asc, ">Total value &#8593;</option>
+                            <option value="totalvalue-desc, ">Total value &#8595;</option>
+                            <option value="date-asc,lastorder">Last order &#8593;</option>
+                            <option value="date-desc,lastorder">last order &#8595;</option>
+                        </select>
+                    </div>
+                    {/* SORT & FILTER MIX (SORT1)- */}
+                    {/* <div className="sort">
+                        <label>Select sort criteria</label><br></br>
+                        <select onChange={selectSort} value={sortConditions} >
                             <option value="default"  hidden>Select sorting...</option>
                             <option value="in-stock">In Stock</option>
                             <option value="out-stock">Out of stock</option>
                             <option value="number-asc">Price low to high</option>
                             <option value="number-desc">Price hight to low</option>
                         </select>
-                    </div>
+                    </div> */}
                 </fieldset>
                 <button className="form-button" onClick={resetHandler}>Reset</button>
             </fieldset>
