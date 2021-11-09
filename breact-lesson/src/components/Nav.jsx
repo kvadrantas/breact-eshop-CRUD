@@ -1,6 +1,6 @@
 // import { useState } from "react";
 
-function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditions, setSortConditions, types}) {
+function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditions, handleSort, types}) {
 
 // ----------------- FILTER -----------------
 
@@ -12,7 +12,8 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
 
 // ----------------- SORT -----------------
     const selectSort = e => {
-        setSortConditions(e.target.value);
+        sortConditions.current = e.target.value;
+        handleSort(e.target.value);
     }
     
     // SORT1 & FILTER MIX (SORT1)   
@@ -31,8 +32,9 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
     const resetHandler = () => {
         reset();
         setFilterBy('');
-        setSortConditions('');
         setSearchBy('');
+        sortConditions.current = '';
+        handleSort('');
     }
 
     return (
@@ -69,7 +71,7 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
                     <legend>Sorting</legend>
                     <div className="sort">
                         <label>Select sort criteria</label><br></br>
-                        <select onChange={selectSort} value={sortConditions} >
+                        <select onChange={selectSort} value={sortConditions.current} >
                             <option value="default"  hidden>Select sorting...</option>
                             <option value="text-asc,name">Product name &#8593;</option>
                             <option value="text-desc,name">Product name &#8595;</option>

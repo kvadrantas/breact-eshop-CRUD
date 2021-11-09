@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Create from "./components/Create";
 import List from "./components/List";
 import Modal from "./components/Modal";
@@ -40,7 +40,7 @@ function App () {
         if (filterBy) {
             axios.get('http://localhost:3003/stock-filter/'+filterBy)
             .then(res => {
-                setItems(Sort(fixDate(res.data), sortConditions));
+                setItems(Sort(fixDate(res.data), sortConditions.current));
                 // setItems(fixDate(res.data));
                 // console.log(res.data);
             })
@@ -55,13 +55,20 @@ function App () {
     }
 
     // ----------------- SORT -----------------
-        const [sortConditions, setSortConditions] = useState('');
-        useEffect(() => {
-            if (sortConditions) {
-                setItems(Sort(items, sortConditions, setFilterBy));
-            }
-            //eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [sortConditions])
+    const sortConditions = useRef('');
+    // const [sortConditions, setSortConditions] = useState('');
+    const handleSort = () => {
+        if (sortConditions.current) {
+            setItems(Sort(items, sortConditions.current));
+        }
+    }
+
+        // useEffect(() => {
+        //     if (sortConditions) {
+        //         setItems(Sort(items, sortConditions));
+        //     }
+        //     //eslint-disable-next-line react-hooks/exhaustive-deps
+        // }, [sortConditions])
 
     // ----------------- SORT & FILTER MIX (SORT1) -----------------
     // const [sortBy, setSortBy] = useState('');
@@ -79,7 +86,7 @@ function App () {
         if (searchBy) {
         axios.get('http://localhost:3003/stock-search/?s='+searchBy)
             .then(res => {
-                setItems(Sort(fixDate(res.data), sortConditions));
+                setItems(Sort(fixDate(res.data), sortConditions.current));
                 // setItems(fixDate(res.data));
                 // console.log(res.data);
             })
@@ -93,7 +100,7 @@ function App () {
     useEffect(() => {
         axios.get('http://localhost:3003/stock')
         .then(res => {
-            setItems(Sort(fixDate(res.data), sortConditions));
+            setItems(Sort(fixDate(res.data), sortConditions.current));
             // setItems(fixDate(res.data));
             // console.log(res.data)
         })
@@ -138,7 +145,7 @@ function App () {
                     <div className="main">
                         <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal}></Modal>
                         <div className="nav">
-                            <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} setSortConditions={setSortConditions} types={types} reset={reset}></Nav>
+                            <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
                             <Create create={create}></Create>
                         </div>
                         <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></List>
