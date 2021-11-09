@@ -22,6 +22,7 @@ function Item({item, setShowModal, setModalItem, remove}) {
     
             <div className="main-list-item-stats">
                 <span className="main-list-item-name">{item.product}</span>
+                <span><span className="field-names">Type: </span>{item.type}</span>
                 <span><span className="field-names">Quantity: </span>{item.quantity}</span>
                 <span><span className="field-names">Price: </span>{item.price}</span>
                 <span><span className="field-names">Quantity: </span>{item.price * item.quantity}</span>

@@ -9,8 +9,8 @@ function Sort(itemss, sortConditions) {
     switch (sortDirection) {
         case 'text-asc':
             items.sort((a, b) => {
-                const textA = a.product.toUpperCase();
-                const textB = b.product.toUpperCase();
+                const textA = a[byWhat].toUpperCase();
+                const textB = b[byWhat].toUpperCase();
                 if (textA < textB) {
                     return -1;
                 }
@@ -22,8 +22,8 @@ function Sort(itemss, sortConditions) {
             break;
         case 'text-desc':
             items.sort((a, b) => {
-                const textA = a.product.toUpperCase();
-                const textB = b.product.toUpperCase();
+                const textA = a[byWhat].toUpperCase();
+                const textB = b[byWhat].toUpperCase();
                 if (textA < textB) {
                     return 1;
                 }

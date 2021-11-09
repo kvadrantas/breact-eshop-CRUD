@@ -57,10 +57,10 @@ app.get('/stock/', (req, res) => {
 app.post('/stock', (req, res) => {
     const sql = `
         insert into stock
-        (product, quantity, price, instock, lastorder)
-        values (?, ?, ?, ?, ?)
+        (product, type, quantity, price, instock, lastorder)
+        values (?, ?, ?, ?, ?, ?)
     `
-    con.query(sql, [req.body.product, req.body.quantity, req.body.price, req.body.instock||'0', req.body.lastorder.slice(0, 10)||'0001-01-01'], (err, results) => {
+    con.query(sql, [req.body.product, req.body.type, req.body.quantity, req.body.price, req.body.instock||'0', req.body.lastorder.slice(0, 10)||'0001-01-01'], (err, results) => {
         if (err) throw err;
         // console.log(results);
         res.send(results)
@@ -73,11 +73,12 @@ app.put('/stock/:id', (req, res) => {
     // console.log(req.body.lastorder);
     const sql = `
         UPDATE stock
-        SET product = ?, quantity = ?, price = ?, instock = ?, lastorder = ?
+        SET product = ?, type = ?, quantity = ?, price = ?, instock = ?, lastorder = ?
         WHERE id = ?
     `;
     con.query(sql, [
         req.body.product,
+        req.body.type,
         req.body.quantity,
         req.body.price,
         req.body.instock,
@@ -110,7 +111,7 @@ app.delete('/stock/:id', (req, res) => {
 
 
 
-// FILTER CHECKBOX CONTENT - GET DISTINCT TYPES 
+// FILTER CHECKBOX CONTENT - GET DISTINCT TYPES
 app.get('/stock-types', (req, res) => {
     const sql = `
         SELECT DISTINCT type
@@ -176,9 +177,9 @@ app.get('/stock-search', (req, res) => {
     const sql = `
         SELECT *
         FROM stock
-        where LOWER(product) like ? OR LOWER(type) like ? OR LOWER(quantity) like ? OR LOWER(price) like ? OR LOWER(instock) like ? OR LOWER(lastorder) like ?
+        where LOWER(product) like ? OR LOWER(type) like ? OR LOWER(type) like ? OR LOWER(quantity) like ? OR LOWER(price) like ? OR LOWER(instock) like ? OR LOWER(lastorder) like ?
     `;
-    con.query(sql, [searchText, searchText, searchText, searchText, searchText, searchText], (err, results) => {
+    con.query(sql, [searchText, searchText, searchText, searchText, searchText, searchText, searchText], (err, results) => {
         if (err) {
             throw err;
         }

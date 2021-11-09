@@ -19,6 +19,7 @@ function App () {
     const [showModal, setShowModal] = useState(false);
     const [modalItem, setModalItem] = useState({
         product: '',
+        type: '',
         quantity: '',
         price: '',
         instock: '',

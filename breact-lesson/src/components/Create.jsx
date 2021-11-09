@@ -4,6 +4,7 @@ function Create({create}) {
 
     const [inputs, setInputs] = useState({
         product: '',
+        type: '',
         quantity: '',
         price: '',
         instock: '0',
@@ -31,6 +32,7 @@ function Create({create}) {
             create(inputs)
             setInputs({
                 product: '',
+                type: '',
                 quantity: '',
                 price: '',
                 instock: '0',
@@ -45,6 +47,8 @@ function Create({create}) {
                 <legend>New record</legend>
                 <label htmlFor="">Product*</label>
                 <input type="text" value={inputs.product} onChange={(e) => formControl(e, 'product')} />
+                <label htmlFor="">Type*</label>
+                <input type="text" value={inputs.type} onChange={(e) => formControl(e, 'type')} />
                 <label htmlFor="">Quantity*</label>
                 <input type="number" value={inputs.quantity} onChange={(e) => formControl(e, 'quantity')} />
                 <label htmlFor="">Price*</label>

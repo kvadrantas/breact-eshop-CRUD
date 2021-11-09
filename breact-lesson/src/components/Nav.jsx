@@ -73,8 +73,10 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
                         <label>Select sort criteria</label><br></br>
                         <select onChange={selectSort} value={sortConditions.current} >
                             <option value="default"  hidden>Select sorting...</option>
-                            <option value="text-asc,name">Product name &#8593;</option>
-                            <option value="text-desc,name">Product name &#8595;</option>
+                            <option value="text-asc,product">Product name &#8593;</option>
+                            <option value="text-desc,product">Product name &#8595;</option>
+                            <option value="text-asc,type">Type &#8593;</option>
+                            <option value="text-desc,type">Type &#8595;</option>
                             <option value="number-asc,quantity">Quantity &#8593;</option>
                             <option value="number-desc,quantity">Quantity &#8595;</option>
                             <option value="number-asc,price">Price &#8593;</option>

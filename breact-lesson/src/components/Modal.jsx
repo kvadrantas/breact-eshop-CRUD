@@ -6,6 +6,7 @@ function Modal({edit, remove, modalItem, showModal, setShowModal}) {
 
     const [inputs, setInputs] = useState({
         product: '',
+        type: '',
         quantity: '',
         price: '',
         instock: '',
@@ -15,6 +16,7 @@ function Modal({edit, remove, modalItem, showModal, setShowModal}) {
     useEffect(() => {
         setInputs({
             product: modalItem.product,
+            type: modalItem.type,
             quantity: modalItem.quantity,
             price: modalItem.price,
             instock: modalItem.instock,
@@ -36,6 +38,7 @@ function Modal({edit, remove, modalItem, showModal, setShowModal}) {
             // console.log(modalItem.lastorder)
             edit({
                 product: inputs.product,
+                type: inputs.type,
                 quantity: inputs.quantity,
                 price: inputs.price,
                 instock: inputs.instock,
@@ -68,6 +71,7 @@ function Modal({edit, remove, modalItem, showModal, setShowModal}) {
             <div className="main-modal-form">
                 <h2>Edit item</h2>
                 <label>Product*</label><input type="text" value={inputs.product} onChange={(e) => formControl(e, 'product')} />
+                <label>Type*</label><input type="text" value={inputs.type} onChange={(e) => formControl(e, 'type')} />
                 <label>Quantity*</label><input type="text" value={inputs.quantity} onChange={(e) => formControl(e, 'quantity')} />
                 <label>Price*</label><input type="number" value={inputs.price} onChange={(e) => formControl(e, 'price')} />
                 <label>In Stock</label>

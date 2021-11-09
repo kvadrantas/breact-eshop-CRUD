@@ -81,7 +81,7 @@ body * {
     }
   }
   &-list {
-    height: 108vh;
+    height: calc(108vh + 290px);
     width: 100%;
     overflow-y: scroll;
     // display: flex;     // block view
@@ -212,6 +212,10 @@ body * {
 
     h2 {
       width: 80%;
+    }
+
+    input:first-of-type {
+      width: 70%;
     }
 
     input {

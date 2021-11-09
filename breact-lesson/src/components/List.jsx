@@ -1,12 +1,12 @@
 import Item from "./Item";
 
 function List({items, setShowModal, setModalItem, remove}) {
-
     return (
         <div className="main-list">
             <div className="tbl-header">
                 <div className="main-list-item-stats">
                     <span>Product</span>
+                    <span>Type</span>
                     <span>Quantity</span>
                     <span>Price</span>
                     <span>Total value</span>

@@ -6,6 +6,7 @@ function fixDate(data) {
         return({
             id: e.id,
             product: e.product,
+            type: e.type,
             quantity: e.quantity,
             price: e.price,
             instock: e.instock,
