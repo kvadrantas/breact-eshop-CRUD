@@ -37,8 +37,6 @@ con.connect(function(err) {
 
 
 
-// ----------------- ROUTING -----------------
-
 // GET ALL RECORDS FROM TABLE
 app.get('/stock/', (req, res) => {
     const sql = `
@@ -188,16 +186,115 @@ app.get('/stock-search', (req, res) => {
     })
 })
 
+// STATISTICS
+app.get('/statistics', (req, res) => {
+    
+    let totalQuantity;
+    let totalValue;
+    let uniqueProducts;
+    let avgPrice;
+    let itmInStock;
+    let itmOutStock;
+    let groupStats;
+    
+    let sql = `
+    SELECT 
+    SUM(quantity) as totalQuantity,
+    sum(quantity*price) as totalValue,
+    COUNT(id) as uniqueProducts
+    FROM stock
+    where instock = '1';
+    `;
+    con.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        // res.send(results);
+         
+            totalQuantity = results[0].totalQuantity;
+            totalValue = results[0].totalValue;
+            uniqueProducts = results[0].uniqueProducts;
+    });
 
-function fixDate(data) {
-    return data.map((e, i) =>  {
-        return({
-            id: i+1,
-            product: e.product,
-            quantity: e.quantity,
-            price: e.price,
-            instock: e.instock,
-            lastorder: moment.tz(e.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')
-        })
-    })
-}
+    sql = `
+    select 
+    SUM(quantity) as itmInStock
+    from stock
+    where instock = '1';
+    `;
+    con.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        // res.send(results);
+        itmInStock = results[0].itmInStock;
+    });
+
+    sql = `
+    select 
+    SUM(quantity) as itmOutStock
+    from stock
+    where instock = '0';
+    `;
+    con.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        // res.send(results);
+         itmOutStock = results[0].itmOutStock;
+    });
+
+    sql = `
+    select type, sum(quantity) as quantity
+    from stock
+    where instock = '1'
+    group by type;
+    `;
+    con.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        // res.send(results);
+        groupStats = results;
+        res.send({
+            totalQuantity,
+            totalValue,
+            uniqueProducts,
+            avgPrice: totalValue/totalQuantity,
+            itmInStock,
+            itmOutStock,
+            groupStats
+        });
+    });
+})
+
+// app.get('/group-statistics', (req, res) => {
+//     const sql = `
+//         SELECT COUNT(id) as count, type
+//         FROM animals
+//         GROUP BY type
+//         ORDER BY COUNT(id) DESC, type
+//     `;
+//     con.query(sql, (err, results) => {
+//         if (err) {
+//             throw err;
+//         }
+//         res.send(results);
+//     })
+// })
+
+
+
+
+// function fixDate(data) {
+//     return data.map((e, i) =>  {
+//         return({
+//             id: i+1,
+//             product: e.product,
+//             quantity: e.quantity,
+//             price: e.price,
+//             instock: e.instock,
+//             lastorder: moment.tz(e.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')
+//         })
+//     })
+// }

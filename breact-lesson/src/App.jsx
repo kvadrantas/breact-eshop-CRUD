@@ -8,6 +8,7 @@ import Sort from "./js/Sort";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // for error page 404
 import PageNotFound from "./components/404-page";
 import fixDate from "./js/fixDate";
+import Statistics from "./components/Statistics";
  
 
 
@@ -23,6 +24,32 @@ function App () {
         instock: '',
         lastorder: ''
     });
+
+    // ----------------- STATISTICS -----------------
+    const [stats, setStats] = useState({
+        totalQuantity: 0,
+        totalValue: 0,
+        uniqueProducts: 0,
+        avgPrice: 0,
+        itmInStock: 0,
+        itmOutStock: 0,
+        groupStats: []
+    })
+
+    useEffect(() => {
+        axios.get('http://localhost:3003/statistics')
+            .then(res => {
+                setStats(res.data);
+                // console.log(res.data);
+            })
+    }, [lastUpdate])
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:3003/group-statistics')
+    //         .then(res => {
+    //             setGroupStats(res.data);
+    //         })
+    // }, [lastUpdate])
 
     // ----------------- FILTERING -----------------
     const [types, setTypes] = useState([]);  // filters dropbox options
@@ -142,14 +169,17 @@ function App () {
         <Router>
             <Routes>
                 <Route path="/" element={
-                    <div className="main">
-                        <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal}></Modal>
-                        <div className="nav">
-                            <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
-                            <Create create={create}></Create>
+                    <>
+                        <Statistics stats={stats} />
+                        <div className="main">
+                            <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal}></Modal>
+                            <div className="nav">
+                                <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
+                                <Create create={create}></Create>
+                            </div>
+                            <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></List>
                         </div>
-                        <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></List>
-                    </div>
+                    </>
                     }>
                 </Route>
 
