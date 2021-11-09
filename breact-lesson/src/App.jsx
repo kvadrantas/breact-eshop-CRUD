@@ -40,9 +40,11 @@ function App () {
         if (filterBy) {
             axios.get('http://localhost:3003/stock-filter/'+filterBy)
             .then(res => {
-                setItems(fixDate(res.data));
+                setItems(Sort(fixDate(res.data), sortConditions));
+                // setItems(fixDate(res.data));
                 // console.log(res.data);
             })
+            setSearchBy('');
         }
     }, [filterBy])
 
@@ -75,11 +77,13 @@ function App () {
 
     useEffect(() => {
         if (searchBy) {
-        axios.get('http://localhost:3003/item-search/?s='+searchBy)
+        axios.get('http://localhost:3003/stock-search/?s='+searchBy)
             .then(res => {
-                setItems(fixDate(res.data));
+                setItems(Sort(fixDate(res.data), sortConditions));
+                // setItems(fixDate(res.data));
                 // console.log(res.data);
             })
+            setFilterBy('');
         }
     }, [searchBy])
     // ------------------------------------------
@@ -89,8 +93,9 @@ function App () {
     useEffect(() => {
         axios.get('http://localhost:3003/stock')
         .then(res => {
+            setItems(Sort(fixDate(res.data), sortConditions));
+            // setItems(fixDate(res.data));
             // console.log(res.data)
-            setItems(fixDate(res.data));
         })
     }, [lastUpdate])
 
@@ -133,7 +138,7 @@ function App () {
                     <div className="main">
                         <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal}></Modal>
                         <div className="nav">
-                            <Nav  setSearchBy={setSearchBy} filter={setFilterBy} sortConditions={sortConditions} setSortConditions={setSortConditions} types={types} reset={reset}></Nav>
+                            <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} setSortConditions={setSortConditions} types={types} reset={reset}></Nav>
                             <Create create={create}></Create>
                         </div>
                         <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></List>

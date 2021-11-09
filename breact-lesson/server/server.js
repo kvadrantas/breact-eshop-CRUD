@@ -128,49 +128,65 @@ app.get('/stock-types', (req, res) => {
 
 // FILTER - GET DATA BY TYPE
 app.get('/stock-filter/:t', (req, res) => {
-    // console.log(typeof req.params.t, req.params.t);
-    // console.log(req.params.t === '3');
-    let sql;
-    if(req.params.t === 'ASC') {
-        sql = `
-        SELECT * FROM stock
-        order by price ASC
-    `} else if(req.params.t === 'DESC') {
-        sql = `
-        SELECT * FROM stock
-        order by price DESC
-    `} else if(req.params.t === '1' || req.params.t === '0') {
-        sql = `
+    const sql = `
         SELECT *
         FROM stock
-        WHERE instock = ?
+        WHERE type = ?
     `;
-    }
-    
     con.query(sql, [req.params.t], (err, results) => {
         if (err) {
             throw err;
         }
         res.send(results);
-        // console.log(results)
     })
 })
 
-// SEARCH DATA
-// app.get('/stock-search', (req, res) => {
-//     const searchText = (`%${req.query.s}%`).toLowerCase();
-//     const sql = `
+
+// SORT1 & FILTER MIX (SORT1)  
+// app.get('/stock-filter/:t', (req, res) => {
+//     // console.log(typeof req.params.t, req.params.t);
+//     // console.log(req.params.t === '3');
+//     let sql;
+//     if(req.params.t === 'ASC') {
+//         sql = `
+//         SELECT * FROM stock
+//         order by price ASC
+//     `} else if(req.params.t === 'DESC') {
+//         sql = `
+//         SELECT * FROM stock
+//         order by price DESC
+//     `} else if(req.params.t === '1' || req.params.t === '0') {
+//         sql = `
 //         SELECT *
 //         FROM stock
-//         where LOWER(type) like ? OR LOWER(name) like ?
+//         WHERE instock = ?
 //     `;
-//     con.query(sql, [searchText, searchText], (err, results) => {
+//     }
+    
+//     con.query(sql, [req.params.t], (err, results) => {
 //         if (err) {
 //             throw err;
 //         }
 //         res.send(results);
+//         // console.log(results)
 //     })
 // })
+
+// SEARCH DATA
+app.get('/stock-search', (req, res) => {
+    const searchText = (`%${req.query.s}%`).toLowerCase();
+    const sql = `
+        SELECT *
+        FROM stock
+        where LOWER(product) like ? OR LOWER(type) like ? OR LOWER(quantity) like ? OR LOWER(price) like ? OR LOWER(instock) like ? OR LOWER(lastorder) like ?
+    `;
+    con.query(sql, [searchText, searchText, searchText, searchText, searchText, searchText], (err, results) => {
+        if (err) {
+            throw err;
+        }
+        res.send(results);
+    })
+})
 
 
 function fixDate(data) {

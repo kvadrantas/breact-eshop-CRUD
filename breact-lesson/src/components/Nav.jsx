@@ -1,15 +1,12 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-function Nav({ filter, reset, search, sortConditions, setSortConditions, types}) {
+function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditions, setSortConditions, types}) {
 
 // ----------------- FILTER -----------------
 
-    const [filterValue, setFilterValue] = useState('');
-    // const [searchValue, setSearchValue] = useState('');
 
     const selectFilter = e => {
-        setFilterValue(e.target.value);
-        filter(e.target.value)
+        setFilterBy(e.target.value)
     }
 
 
@@ -23,17 +20,19 @@ function Nav({ filter, reset, search, sortConditions, setSortConditions, types})
     //     setSortConditions(e.target.value);
     // }
 
-    // const handleSearchValue = e => {
-    //     // console.log(e)
-    //     if(!e.target.value) reset();
-    //     setSearchValue(e.target.value);
-    //     search(e.target.value)
-    // }
+// ----------------- SEARCH -----------------
+    const handleSearchValue = e => {
+        // console.log(e)
+        if(!e.target.value) reset();
+        setSearchBy(e.target.value)
+    }
 
+// ----------------- RESET -----------------
     const resetHandler = () => {
         reset();
-        setFilterValue('');
+        setFilterBy('');
         setSortConditions('');
+        setSearchBy('');
     }
 
     return (
@@ -45,8 +44,9 @@ function Nav({ filter, reset, search, sortConditions, setSortConditions, types})
                     <legend>Filter</legend>
                     <div className="filter">
                         <label>By type</label><br></br>
-                        <select onChange={selectFilter} value={filterValue} >
-                            {/* <option value="default"  hidden>Select filter...</option> */}
+                        <select onChange={selectFilter} value={filterBy} >
+                            <option value="default" hidden>Select filter...</option>
+                            {/* <option value="">Select animal</option> */}
                             {
                                 types.map(t => <option key={t.type} value={t.type}>{t.type}</option>)
                             }
@@ -57,7 +57,7 @@ function Nav({ filter, reset, search, sortConditions, setSortConditions, types})
                     <legend>Filter</legend>
                     <div className="filter">
                         <label>By type</label><br></br>
-                        <select onChange={selectFilter} value={filterValue} >
+                        <select onChange={selectFilter} value={filterBy} >
                             <option value="default"  hidden>Select item...</option>
                             {
                                 types.map(t => <option key={t.type} value={t.type}>{t.type}</option>)
@@ -97,13 +97,13 @@ function Nav({ filter, reset, search, sortConditions, setSortConditions, types})
                 </fieldset>
                 <button className="form-button" onClick={resetHandler}>Reset</button>
             </fieldset>
-            {/* <fieldset>
+            <fieldset>
                 <legend>Search</legend>
                 <div className="search">
                     <label>Type search text</label>
-                    <input onChange={handleSearchValue} value={searchValue}></input>
+                    <input onChange={handleSearchValue} value={searchBy}></input>
                 </div>
-            </fieldset> */}
+            </fieldset>
         </div>
     )
 }
