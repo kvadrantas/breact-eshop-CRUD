@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // fo
 import PageNotFound from "./components/404-page";
 import fixDate from "./js/fixDate";
 import Statistics from "./components/Statistics";
+import ActionMsg from "./components/ActionMsg";
  
 
 
@@ -25,6 +26,21 @@ function App () {
         instock: '',
         lastorder: ''
     });
+
+
+    // ----------------- ACTION MESSAGES -----------------
+    const [showMsg, setShowMsg] = useState(false);
+    const msg = useRef('');
+
+    const addMsg = (text) => {
+        msg.current = text;
+        setShowMsg(true);
+        setTimeout(() => {clearMsg()}, 2000);
+    }
+
+    const clearMsg = () => {
+        setShowMsg(false)
+    }
 
     // ----------------- STATISTICS -----------------
     const [stats, setStats] = useState({
@@ -140,6 +156,7 @@ function App () {
         axios.post('http://localhost:3003/stock', item)
         .then(res => {
             // console.log(res.data)
+            addMsg('Record successfully added.');
             setLastUpdate(Date.now());
         })
     }
@@ -150,6 +167,7 @@ function App () {
         axios.put('http://localhost:3003/stock/' + id, item)
         .then(res => {
             // console.log(res.data);
+            addMsg('Record successfully saved.');
             setLastUpdate(Date.now());
         })
     }
@@ -160,6 +178,7 @@ function App () {
         axios.delete('http://localhost:3003/stock/' + id)
         .then(res => {
             // console.log(res.data);
+            addMsg('Record successfully removed.');
             setLastUpdate(Date.now());
         })
     }
@@ -171,6 +190,7 @@ function App () {
             <Routes>
                 <Route path="/" element={
                     <>
+                        <ActionMsg msg={msg.current} showMsg={showMsg}></ActionMsg>
                         <Statistics stats={stats} />
                         <div className="main">
                             <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal}></Modal>
