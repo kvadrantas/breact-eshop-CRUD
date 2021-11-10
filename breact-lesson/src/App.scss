@@ -84,7 +84,7 @@ body * {
   display: flex;
   flex-direction: row;
   background-color: #f4fbfd;
-  min-width: 100vw;
+  min-width: calc(100vw - 20px);
   min-height: 100vh;
 
   .tbl-header {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import moment from "moment-timezone";
+// import moment from "moment-timezone";
 
 
 function Modal({edit, remove, modalItem, showModal, setShowModal}) {
@@ -79,7 +79,8 @@ function Modal({edit, remove, modalItem, showModal, setShowModal}) {
                     <option value="1">yes</option>
                     <option value="0">no</option>
                 </select>
-                <label>Last Order</label><input type="date" value={moment.tz(inputs.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')} onChange={(e) => formControl(e, 'lastorder')} />
+                {/* <label>Last Order</label><input type="date" value={moment.tz(inputs.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')} onChange={(e) => formControl(e, 'lastorder')} /> */}
+                <label>Last Order</label><input type="date" value={inputs.lastorder} onChange={(e) => formControl(e, 'lastorder')} />
             </div>
             <button className="form-button" onClick={handleEdit}>Save</button>
             <button className="form-button" onClick={() => setShowModal(false)}>Cancel</button>
