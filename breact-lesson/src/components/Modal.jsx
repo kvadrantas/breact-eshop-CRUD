@@ -150,10 +150,12 @@ function Modal({edit, remove, modalItem, showModal, setShowModal, types}) {
                 <div className="for-sale">
                     <label style={{marginTop:'15px'}}>For sale?</label>
                     <input onChange={(e) => formControl(e, 'forsale')} value={inputs.forsale} checked={inputs.forsale} type="checkbox" />
-                </div>
+                </div> <br/>
 
-                <label style={{marginTop:'15px'}} htmlFor="">Description</label>
-                <textarea maxLength="245" value={inputs.description} onChange={(e) => formControl(e, 'description')} />
+                <div className="description">
+                    <label style={{marginTop:'15px'}} htmlFor="">Description</label>
+                    <textarea maxLength="245" value={inputs.description} onChange={(e) => formControl(e, 'description')} />
+                </div>
             </div>
             <button className="form-button" onClick={handleEdit}>Save</button>
             <button className="form-button" onClick={() => setShowModal(false)}>Cancel</button>
