@@ -1,6 +1,6 @@
 import Item from "./Item";
 
-function List({items, setShowModal, setModalItem, remove}) {
+function List({items, setShowModal, setModalItem, confirmDelete}) {
     return (
         <div className="main-list">
             <div className="tbl-header">
@@ -20,7 +20,7 @@ function List({items, setShowModal, setModalItem, remove}) {
     
                 </div>
             </div>
-            {items.map(item => <Item key={item.id} item={item} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></Item>)}
+            {items.map(item => <Item key={item.id} item={item} setShowModal={setShowModal} setModalItem={setModalItem} confirmDelete={confirmDelete}></Item>)}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 
-function Item({item, setShowModal, setModalItem, remove}) {
+function Item({item, setShowModal, setModalItem, confirmDelete}) {
 
     const showEdit = () => {
         setShowModal(true);
@@ -18,7 +18,7 @@ function Item({item, setShowModal, setModalItem, remove}) {
     return (
         <div className="main-list-item">
             {/* <i className="fas fa-pencil-alt edit" onClick={showEdit}></i> */}
-            {/* <i className="far fa-trash-alt delete" onClick={() => remove(item.id)}></i> */}
+            {/* <i className="far fa-trash-alt delete" onClick={() => confirmDelete(item.id)}></i> */}
     
             <div className="main-list-item-stats">
                 <span className="main-list-item-name">{item.product}</span>
@@ -32,7 +32,7 @@ function Item({item, setShowModal, setModalItem, remove}) {
                 <span><span className="field-names">For Sale: </span>{stock(item.forsale)}</span>
                 <span><span className="field-names">Description: </span>{item.description}</span>
                 <button className="form-button" onClick={showEdit}>Edit</button>
-                <button className="form-button" onClick={() => remove(item.id)}>Delete</button>
+                <button className="form-button" onClick={() => confirmDelete(item.id)}>Delete</button>
             </div>
         </div>
     )

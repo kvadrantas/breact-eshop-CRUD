@@ -10,6 +10,7 @@ import PageNotFound from "./components/404-page";
 import fixDate from "./js/fixDate";
 import Statistics from "./components/Statistics";
 import ActionMsg from "./components/ActionMsg";
+import ConfirmDelete from "./components/ConfirmDelete";
  
 
 
@@ -17,6 +18,8 @@ function App () {
 
     const [items, setItems] = useState([]);
     const [lastUpdate, setLastUpdate] = useState(Date.now());
+
+// EDIT RECORD MODAL
     const [showModal, setShowModal] = useState(false);
     const [modalItem, setModalItem] = useState({
         product: '',
@@ -176,8 +179,18 @@ function App () {
     }
 
     // REMOVE RECORD 
+    const[showDeleteCofirm, setShowDeleteConfirm] = useState(false);
+    const[deleteConfirmed, setDeleteConfirmed] = useState(false);
+    const[rcrdMarked, setrcrdMarked] = useState();
+
+    const confirmDelete = (id) => {
+        setShowDeleteConfirm(true);
+        setrcrdMarked(id);
+    }
+
     const remove = (id) => {
         setShowModal(false);
+        // console.log('THATS IT ', id)
         axios.delete('http://localhost:3003/stock/' + id)
         .then(res => {
             // console.log(res.data);
@@ -196,12 +209,13 @@ function App () {
                         <ActionMsg msg={msg.current} showMsg={showMsg}></ActionMsg>
                         <Statistics stats={stats} />
                         <div className="main">
+                            <ConfirmDelete showDeleteCofirm={showDeleteCofirm} setShowDeleteConfirm={setShowDeleteConfirm} deleteConfirmed={deleteConfirmed} setDeleteConfirmed={setDeleteConfirmed} rcrdMarked={rcrdMarked} remove={remove}/>
                             <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal} types={types}></Modal>
                             <div className="nav">
                                 <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
                                 <Create create={create}></Create>
                             </div>
-                            <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} remove={remove}></List>
+                            <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} confirmDelete={confirmDelete}></List>
                         </div>
                     </>
                     }>
