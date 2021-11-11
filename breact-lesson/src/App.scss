@@ -85,7 +85,7 @@ body * {
   flex-direction: row;
   background-color: #f4fbfd;
   min-width: calc(100vw - 20px);
-  min-height: 100vh;
+  // min-height: 100vh;
 
   .tbl-header {
     padding: 15px;
@@ -101,7 +101,7 @@ body * {
     }
   }
   &-list {
-    height: calc(108vh + 290px);
+    // height: calc(108vh + 290px);
     width: 100%;
     overflow-y: scroll;
     // display: flex;     // block view
@@ -209,10 +209,53 @@ body * {
     // margin: 20px;
     // padding: 10px;
     box-sizing: border-box;
+    textarea {
+      width: 193px;
+      max-width: 193px;
+      height: 100px;
+    }
     select {
       display: block;
       height: 24px;
       margin-bottom: 21px;
+    }
+  }
+
+  .waranty {
+    width: 198px;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    label {
+      margin-top: 10px;
+    }
+    div {
+      width: 65px;
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+      padding: 0;
+      input {
+        margin: 6px 0;
+      }
+      label {
+        margin: 0;
+      }
+    }
+  }
+  .for-sale {
+    display: block;
+    margin: 0;
+    padding: 0;
+    label {
+      float: left;
+      width: 66px;
+    }
+    input {
+      float: left;
+      margin-top: 21px;
+      width: 15px;
     }
   }
 
@@ -266,6 +309,7 @@ body * {
     }    
   }
 }
+
 
 label {
   text-align: left;

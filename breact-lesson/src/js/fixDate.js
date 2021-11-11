@@ -10,7 +10,10 @@ function fixDate(data) {
             quantity: e.quantity,
             price: e.price,
             instock: e.instock,
-            lastorder: moment.tz(e.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')
+            lastorder: moment.tz(e.lastorder, "Europe/Vilnius").format('YYYY-MM-DD'),
+            waranty: e.waranty,
+            forsale: e.forsale,
+            description: e.description
         })
     })
 }

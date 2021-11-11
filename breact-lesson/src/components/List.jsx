@@ -12,6 +12,9 @@ function List({items, setShowModal, setModalItem, remove}) {
                     <span>Total value</span>
                     <span>In Stock</span>
                     <span>Last Order</span>
+                    <span>Waranty</span>
+                    <span>For Sale</span>
+                    <span>Description</span>
                     <button className="form-button" >Edit</button>
                     <button className="form-button" >Delete</button>
     

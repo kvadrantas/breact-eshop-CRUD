@@ -58,10 +58,10 @@ app.get('/stock/', (req, res) => {
 app.post('/stock', (req, res) => {
     const sql = `
         insert into stock
-        (product, type, quantity, price, instock, lastorder)
-        values (?, ?, ?, ?, ?, ?)
+        (product, type, quantity, price, instock, lastorder, waranty, forsale, description)
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
-    con.query(sql, [req.body.product, req.body.type, req.body.quantity, req.body.price, req.body.instock||'0', req.body.lastorder.slice(0, 10)||'0001-01-01'], (err, results) => {
+    con.query(sql, [req.body.product, req.body.type, req.body.quantity, req.body.price, req.body.instock||'0', req.body.lastorder.slice(0, 10)||'0001-01-01', req.body.waranty, req.body.forsale, req.body.description], (err, results) => {
         if (err) throw err;
         // console.log(results);
         res.send(results)
@@ -74,7 +74,7 @@ app.put('/stock/:id', (req, res) => {
     // console.log(req.body.lastorder);
     const sql = `
         UPDATE stock
-        SET product = ?, type = ?, quantity = ?, price = ?, instock = ?, lastorder = ?
+        SET product = ?, type = ?, quantity = ?, price = ?, instock = ?, lastorder = ?, waranty = ?, forsale = ?, description = ?
         WHERE id = ?
     `;
     con.query(sql, [
@@ -84,6 +84,9 @@ app.put('/stock/:id', (req, res) => {
         req.body.price,
         req.body.instock,
         req.body.lastorder.slice(0, 10),
+        req.body.waranty,
+        req.body.forsale,
+        req.body.description,
         req.params.id
     ], (err, results) => {
         if (err) {
@@ -178,9 +181,9 @@ app.get('/stock-search', (req, res) => {
     const sql = `
         SELECT *
         FROM stock
-        where LOWER(product) like ? OR LOWER(type) like ? OR LOWER(type) like ? OR LOWER(quantity) like ? OR LOWER(price) like ? OR LOWER(instock) like ? OR LOWER(lastorder) like ?
+        where LOWER(product) like ? OR LOWER(type) like ? OR LOWER(type) like ? OR LOWER(quantity) like ? OR LOWER(price) like ? OR LOWER(instock) like ? OR LOWER(lastorder) like ? OR LOWER(waranty) like ? OR LOWER(forsale) like ? OR LOWER(description) like ?
     `;
-    con.query(sql, [searchText, searchText, searchText, searchText, searchText, searchText, searchText], (err, results) => {
+    con.query(sql, [searchText, searchText, searchText, searchText, searchText, searchText, searchText, searchText, searchText, searchText], (err, results) => {
         if (err) {
             throw err;
         }
