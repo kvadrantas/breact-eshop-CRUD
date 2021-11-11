@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // import moment from "moment-timezone";
 
 
-function Modal({edit, remove, modalItem, showModal, setShowModal, types}) {
+function Modal({edit, confirmDelete, modalItem, showModal, setShowModal, types}) {
 
     const [inputs, setInputs] = useState({
         product: '',
@@ -159,7 +159,7 @@ function Modal({edit, remove, modalItem, showModal, setShowModal, types}) {
             </div>
             <button className="form-button" onClick={handleEdit}>Save</button>
             <button className="form-button" onClick={() => setShowModal(false)}>Cancel</button>
-            <button className="form-button" onClick={() => remove(modalItem.id)}>Delete</button>
+            <button className="form-button" onClick={() => confirmDelete(modalItem.id)}>Delete</button>
         </div>
     )
 
