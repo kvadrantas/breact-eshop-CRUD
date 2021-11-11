@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+// import moment from "moment-timezone";
 
-function Create({create, handleNewRecord}) {
+
+function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types}) {
 
     const [inputs, setInputs] = useState({
         product: '',
         type: '',
         quantity: '',
         price: '',
-        instock: '0',
+        instock: '',
         lastorder: '',
         waranty: '',
-        forsale: false,
+        forsale: '',
         description: ''
     });
+
+
 
     const [radio, setRadio] = useState([false, false, false]);
     const radioControl = i => {
@@ -68,29 +72,34 @@ function Create({create, handleNewRecord}) {
         }
     }
 
-    return (
-        <div className="main-form">
-            <fieldset>
-                <legend>New record</legend>
-                <label htmlFor="">Product*</label>
-                <input type="text" value={inputs.product} onChange={(e) => formControl(e, 'product')} />
-                <label htmlFor="">Type*</label>
-                <input type="text" value={inputs.type} onChange={(e) => formControl(e, 'type')} />
-                <label htmlFor="">Quantity*</label>
-                <input type="number" value={inputs.quantity} onChange={(e) => formControl(e, 'quantity')} />
-                <label htmlFor="">Price*</label>
-                <input type="number" value={inputs.price} onChange={(e) => formControl(e, 'price')} />
 
+    return (
+        <div className="main-modal" style={{
+            display: showNewRecordModal ? 'block' : 'none',
+            top: window.scrollY + 100 + 'px'
+        }}>
+            <div className="main-modal-form">
+                <h2>Edit item</h2>
+                <label>Product*</label><input type="text" value={inputs.product} onChange={(e) => formControl(e, 'product')} />
+                <label>Type*</label><input type="text" value={inputs.type} onChange={(e) => formControl(e, 'type')} />
+                <label>Type*</label>
+                <select name="" id="" value={inputs.type} onChange={(e) => formControl(e, 'type')}>
+                    {types.map((e, i) => <option key={i} value={e.type}>{e.type}</option>)}
+                    
+                </select>
+                <label>Quantity*</label><input type="number" value={inputs.quantity} onChange={(e) => formControl(e, 'quantity')} />
+                <label>Price*</label><input type="number" value={inputs.price} onChange={(e) => formControl(e, 'price')} />
                 <label>In Stock</label>
                 <select name="" id="" value={inputs.instock} onChange={(e) => formControl(e, 'instock')}>
-                    {/* <option value="default" hidd>select...</option> */}
                     <option value="1">yes</option>
                     <option value="0">no</option>
                 </select>
+                {/* <label>Last Order</label><input type="date" value={moment.tz(inputs.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')} onChange={(e) => formControl(e, 'lastorder')} /> */}
+                <label>Last Order</label><input type="date" value={inputs.lastorder} onChange={(e) => formControl(e, 'lastorder')} />
+                {/* <label>Waranty</label><input type="number" value={inputs.waranty} onChange={(e) => formControl(e, 'waranty')} />
+                <label>For Sale</label><input type="number" value={inputs.forsale} onChange={(e) => formControl(e, 'forsale')} />
+                <label>Description</label><textarea value={inputs.description} onChange={(e) => formControl(e, 'description')} /> */}
                 
-                <label htmlFor="">Last Order</label>
-                <input type="date" value={inputs.lastorder} onChange={(e) => formControl(e, 'lastorder')} />
-
                 <label style={{marginTop:'15px'}}>Waranty:</label>
                 <div className="waranty">
                     <div>
@@ -118,18 +127,18 @@ function Create({create, handleNewRecord}) {
                 <div className="for-sale">
                     <label style={{marginTop:'15px'}}>For sale?</label>
                     <input onChange={(e) => formControl(e, 'forsale')} value={inputs.forsale} checked={inputs.forsale} type="checkbox" />
+                </div> <br/>
+
+                <div className="description">
+                    <label style={{marginTop:'15px'}} htmlFor="">Description</label>
+                    <textarea maxLength="245" value={inputs.description} onChange={(e) => formControl(e, 'description')} />
                 </div>
-
-                <label style={{marginTop:'15px'}} htmlFor="">Description</label>
-                <textarea maxLength="245" value={inputs.description} onChange={(e) => formControl(e, 'description')} />
-
-
-                <button className="form-button" onClick={handleCreate}>Add</button>
-                <button className="form-button" onClick={handleNewRecord}>New Record...</button>
-            </fieldset>
+            </div>
+            <button className="form-button" onClick={handleCreate}>Add</button>
+            <button className="form-button" onClick={() => setShowNewRecordModal(false)}>Cancel</button>
         </div>
     )
-
+    
 }
 
-export default Create;
+export default NewRecord;

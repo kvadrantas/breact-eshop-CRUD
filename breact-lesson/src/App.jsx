@@ -11,6 +11,7 @@ import fixDate from "./js/fixDate";
 import Statistics from "./components/Statistics";
 import ActionMsg from "./components/ActionMsg";
 import ConfirmDelete from "./components/ConfirmDelete";
+import NewRecord from "./components/NewRecord";
  
 
 
@@ -157,6 +158,12 @@ function App () {
     }, [lastUpdate])
 
     // NEW RECORD
+    const [showNewRecordModal, setShowNewRecordModal] = useState(false);
+
+    const handleNewRecord = () => {
+        setShowNewRecordModal(true);
+    }
+
     const create = item => {
         // console.log(item)
         axios.post('http://localhost:3003/stock', item)
@@ -213,7 +220,8 @@ function App () {
                             <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal} types={types} confirmDelete={confirmDelete}></Modal>
                             <div className="nav">
                                 <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
-                                <Create create={create}></Create>
+                                <Create create={create} handleNewRecord={handleNewRecord}></Create>
+                                <NewRecord create={create} showNewRecordModal={showNewRecordModal} setShowNewRecordModal={setShowNewRecordModal} types={types}></NewRecord>
                             </div>
                             <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} confirmDelete={confirmDelete}></List>
                         </div>
