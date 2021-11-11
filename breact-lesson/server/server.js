@@ -62,9 +62,13 @@ app.post('/stock', (req, res) => {
         values (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     con.query(sql, [req.body.product, req.body.type, req.body.quantity, req.body.price, req.body.instock||'0', req.body.lastorder.slice(0, 10)||'0001-01-01', req.body.waranty, req.body.forsale, req.body.description], (err, results) => {
-        if (err) throw err;
-        // console.log(results);
-        res.send(results)
+        try {
+            if (err) throw err;
+            // console.log(results);
+            res.send(results)
+        } catch(err) {
+            console.log('THIS IS HANDLED ERROR: ', err)
+        }
     });
 })
 
@@ -89,10 +93,14 @@ app.put('/stock/:id', (req, res) => {
         req.body.description,
         req.params.id
     ], (err, results) => {
-        if (err) {
-            throw err;
+        try {
+            if (err) {
+                throw err;
+            }
+            res.send(results);
+        } catch(err) {
+            console.log('THIS IS HANDLED ERROR: ', err);
         }
-        res.send(results);
     })
 })
 
@@ -104,10 +112,14 @@ app.delete('/stock/:id', (req, res) => {
         WHERE id = ?
         `;
     con.query(sql, [req.params.id], (err, result) => {
-        if (err) {
-            throw err;
+        try {
+            if (err) {
+                throw err;
+            }
+            res.send(result);
+        } catch(err) {
+            console.log('THIS IS HANDLED ERROR: ', err);
         }
-        res.send(result);
     })
 })
 // -------------------------------------------------
