@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Create({create, handleNewRecord}) {
+function Create({create, handleNewRecord, setShowWarningModal}) {
 
     const [inputs, setInputs] = useState({
         product: '',
@@ -44,12 +44,13 @@ function Create({create, handleNewRecord}) {
         if( !inputs.product || 
             !inputs.quantity || parseFloat(inputs.quantity) < 0 || !isFinite(parseFloat(inputs.quantity)) ||
             !inputs.price || parseFloat(inputs.price) < 0 || !isFinite(parseFloat(inputs.quantity))) {
-            alert(`
-                Please check your input!
+                setShowWarningModal(true);
+            // alert(`
+            //     Please check your input!
 
-                - required fields cannot be empty;
-                - quantity and price cannot be negative or infinite.
-            `)
+            //     - required fields cannot be empty;
+            //     - quantity and price cannot be negative or infinite.
+            // `)
         } else {
             create(inputs)
             setInputs({

@@ -12,6 +12,7 @@ import Statistics from "./components/Statistics";
 import ActionMsg from "./components/ActionMsg";
 import ConfirmDelete from "./components/ConfirmDelete";
 import NewRecord from "./components/NewRecord";
+import WarningModal from "./components/WarningModal";
  
 
 
@@ -33,6 +34,9 @@ function App () {
         forsale: '',
         description: ''
     });
+
+// WARNING MODAL 
+const [showWarningModal, setShowWarningModal] = useState(false);
 
 
     // ----------------- ACTION MESSAGES -----------------
@@ -216,12 +220,13 @@ function App () {
                         <ActionMsg msg={msg.current} showMsg={showMsg}></ActionMsg>
                         <Statistics stats={stats} />
                         <div className="main">
+                            <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal}/>
                             <ConfirmDelete showDeleteCofirm={showDeleteCofirm} setShowDeleteConfirm={setShowDeleteConfirm} deleteConfirmed={deleteConfirmed} setDeleteConfirmed={setDeleteConfirmed} rcrdMarked={rcrdMarked} remove={remove}/>
-                            <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal} types={types} confirmDelete={confirmDelete}></Modal>
+                            <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal} types={types} confirmDelete={confirmDelete} setShowWarningModal={setShowWarningModal}></Modal>
                             <div className="nav">
                                 <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
-                                <Create create={create} handleNewRecord={handleNewRecord}></Create>
-                                <NewRecord create={create} showNewRecordModal={showNewRecordModal} setShowNewRecordModal={setShowNewRecordModal} types={types}></NewRecord>
+                                <Create create={create} handleNewRecord={handleNewRecord} setShowWarningModal={setShowWarningModal}></Create>
+                                <NewRecord create={create} showNewRecordModal={showNewRecordModal} setShowNewRecordModal={setShowNewRecordModal} setShowWarningModal={setShowWarningModal} types={types}></NewRecord>
                             </div>
                             <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} confirmDelete={confirmDelete}></List>
                         </div>

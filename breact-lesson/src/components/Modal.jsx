@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // import moment from "moment-timezone";
 
 
-function Modal({edit, confirmDelete, modalItem, showModal, setShowModal, types}) {
+function Modal({edit, confirmDelete, modalItem, showModal, setShowModal, types, setShowWarningModal}) {
 
     const [inputs, setInputs] = useState({
         product: '',
@@ -41,12 +41,13 @@ function Modal({edit, confirmDelete, modalItem, showModal, setShowModal, types})
         if( !inputs.product || 
             !inputs.quantity || parseFloat(inputs.quantity) < 0 || !isFinite(parseFloat(inputs.quantity)) ||
             !inputs.price || parseFloat(inputs.price) < 0 || !isFinite(parseFloat(inputs.quantity))) {
-            alert(`
-                Please check your input!
+                setShowWarningModal(true);
+            // alert(`
+            //     Please check your input!
 
-                - required fields cannot be empty;
-                - quantity and price cannot be negative or infinite.
-            `)
+            //     - required fields cannot be empty;
+            //     - quantity and price cannot be negative or infinite.
+            // `)
         } else {
             // console.log(modalItem.lastorder)
             edit({

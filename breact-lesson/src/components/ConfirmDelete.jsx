@@ -4,10 +4,10 @@ function ConfirmDelete ({showDeleteCofirm, setShowDeleteConfirm, deleteConfirmed
         <div className="main-modal" style={{
             display: showDeleteCofirm ? 'block' : 'none',
             top: window.scrollY + 200 + 'px',
-            width: '300px',
+            // width: '300px',
             zIndex: '2000'
         }}>
-            <p>Are you sure you want to delete record?</p>
+            <h2>Are you sure you want to delete record?</h2>
             <button onClick={() => {
                 setShowDeleteConfirm(false);
                 setDeleteConfirmed(true);

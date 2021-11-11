@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import moment from "moment-timezone";
 
 
-function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types}) {
+function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types, setShowWarningModal}) {
 
     const [inputs, setInputs] = useState({
         product: '',
@@ -12,7 +12,7 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types}) {
         instock: '',
         lastorder: '',
         waranty: '',
-        forsale: '',
+        forsale: false,
         description: ''
     });
 
@@ -48,12 +48,13 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types}) {
         if( !inputs.product || 
             !inputs.quantity || parseFloat(inputs.quantity) < 0 || !isFinite(parseFloat(inputs.quantity)) ||
             !inputs.price || parseFloat(inputs.price) < 0 || !isFinite(parseFloat(inputs.quantity))) {
-            alert(`
-                Please check your input!
+                setShowWarningModal(true);
+            // alert(`
+            //     Please check your input!
 
-                - required fields cannot be empty;
-                - quantity and price cannot be negative or infinite.
-            `)
+            //     - required fields cannot be empty;
+            //     - quantity and price cannot be negative or infinite.
+            // `)
         } else {
             create(inputs)
             setInputs({
@@ -68,6 +69,7 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types}) {
                 description: ''
             });
 
+            setShowNewRecordModal(false);
             setRadio([false, false, false]);
         }
     }
@@ -84,6 +86,7 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types}) {
                 <label>Type*</label><input type="text" value={inputs.type} onChange={(e) => formControl(e, 'type')} />
                 <label>Type*</label>
                 <select name="" id="" value={inputs.type} onChange={(e) => formControl(e, 'type')}>
+                    <option value="default" hidden>Select type...</option>
                     {types.map((e, i) => <option key={i} value={e.type}>{e.type}</option>)}
                     
                 </select>
