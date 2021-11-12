@@ -81,7 +81,7 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types, se
     return (
         <div className="main-modal" style={{
             display: showNewRecordModal ? 'block' : 'none',
-            top: window.scrollY + 100 + 'px'
+            top: window.scrollY
         }}>
             <div className="main-modal-form">
                 <h2>Edit item</h2>

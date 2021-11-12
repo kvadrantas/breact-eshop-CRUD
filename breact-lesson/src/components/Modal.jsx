@@ -103,7 +103,7 @@ function Modal({edit, confirmDelete, modalItem, showModal, setShowModal, types, 
     return (
         <div className="main-modal" style={{
             display: showModal ? 'block' : 'none',
-            top: window.scrollY + 100 + 'px'
+            top: window.scrollY
         }}>
             <div className="main-modal-form">
                 <h2>Edit item</h2>
