@@ -1,3 +1,5 @@
+import isValid from "./js/isValid.js";
+
 // import moment from "moment-timezone";
 
 // ----------------- EXPRESS SERVER -----------------
@@ -61,15 +63,37 @@ app.post('/stock', (req, res) => {
         (product, type, quantity, price, instock, lastorder, waranty, forsale, description)
         values (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
-    con.query(sql, [req.body.product, req.body.type, req.body.quantity, req.body.price, req.body.instock||'0', req.body.lastorder.slice(0, 10)||'0001-01-01', req.body.waranty, req.body.forsale, req.body.description], (err, results) => {
-        try {
-            if (err) throw err;
-            // console.log(results);
-            res.send(results)
-        } catch(err) {
-            console.log('THIS IS HANDLED ERROR: ', err)
-        }
-    });
+    if(
+        isValid('txt', 'required', req.body.product) &&
+        isValid('txt', 'required', req.body.type) &&
+        isValid('num', 'required', req.body.quantity) &&
+        isValid('num', 'required', req.body.price) &&
+        isValid('num', 'optional', req.body.instock) &&
+        isValid('txt', 'optional', req.body.lastorder.slice(0, 10)) &&
+        isValid('num', 'optional', req.body.waranty) &&
+        isValid('boolean', 'optional', req.body.forsale) &&
+        isValid('txt', 'optional', req.body.description)
+    ) {
+        con.query(sql, [
+            req.body.product, 
+            req.body.type, 
+            req.body.quantity, 
+            req.body.price, 
+            req.body.instock||'0', 
+            req.body.lastorder.slice(0, 10)||'0001-01-01', 
+            req.body.waranty, 
+            req.body.forsale, 
+            req.body.description
+        ], (err, results) => {
+            try {
+                if (err) throw err;
+                // console.log(results);
+                res.send(results)
+            } catch(err) {
+                console.log('THIS IS HANDLED ERROR: ', err)
+            }
+        });
+    } else console.log('BAD DATA');
 })
 
 
@@ -81,27 +105,40 @@ app.put('/stock/:id', (req, res) => {
         SET product = ?, type = ?, quantity = ?, price = ?, instock = ?, lastorder = ?, waranty = ?, forsale = ?, description = ?
         WHERE id = ?
     `;
-    con.query(sql, [
-        req.body.product,
-        req.body.type,
-        req.body.quantity,
-        req.body.price,
-        req.body.instock,
-        req.body.lastorder.slice(0, 10),
-        req.body.waranty,
-        req.body.forsale,
-        req.body.description,
-        req.params.id
-    ], (err, results) => {
-        try {
-            if (err) {
-                throw err;
+    if(
+        isValid('txt', 'required', req.body.product) &&
+        isValid('txt', 'required', req.body.type) &&
+        isValid('num', 'required', req.body.quantity) &&
+        isValid('num', 'required', req.body.price) &&
+        isValid('num', 'optional', req.body.instock) &&
+        isValid('txt', 'optional', req.body.lastorder.slice(0, 10)) &&
+        isValid('num', 'optional', req.body.waranty) &&
+        isValid('boolean', 'optional', req.body.forsale) &&
+        isValid('txt', 'optional', req.body.description) &&
+        isValid('num', 'required', req.params.id)
+    ) {
+        con.query(sql, [
+            req.body.product,
+            req.body.type,
+            req.body.quantity,
+            req.body.price,
+            req.body.instock,
+            req.body.lastorder.slice(0, 10),
+            req.body.waranty,
+            req.body.forsale,
+            req.body.description,
+            req.params.id
+        ], (err, results) => {
+            try {
+                if (err) {
+                    throw err;
+                }
+                res.send(results);
+            } catch(err) {
+                console.log('THIS IS HANDLED ERROR: ', err);
             }
-            res.send(results);
-        } catch(err) {
-            console.log('THIS IS HANDLED ERROR: ', err);
-        }
-    })
+        }) 
+    } else console.log('BAD DATA');
 })
 
 

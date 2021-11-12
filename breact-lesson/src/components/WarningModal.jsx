@@ -1,4 +1,4 @@
-function WarningModal ({showWarningModal, setShowWarningModal}) {
+function WarningModal ({showWarningModal, setShowWarningModal, error}) {
 
     return(
         <div className="main-modal" style={{
@@ -16,6 +16,7 @@ function WarningModal ({showWarningModal, setShowWarningModal}) {
                     quantity and price cannot be negative or infinite.
                 </li>
             </ul>
+                <ul>Error: {error}</ul>
             <button className="form-button" onClick={() => setShowWarningModal(false)}>Ok</button>
         </div>
     )

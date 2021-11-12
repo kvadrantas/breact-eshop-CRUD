@@ -1,8 +1,9 @@
 import { useState } from "react";
+import isValidf from "../js/isValidf";
 // import moment from "moment-timezone";
 
 
-function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types, setShowWarningModal}) {
+function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types, setShowWarningModal, error, setError}) {
 
     const [inputs, setInputs] = useState({
         product: '',
@@ -45,16 +46,18 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types, se
     }
 
     const handleCreate = () => {
-        if( !inputs.product || 
-            !inputs.quantity || parseFloat(inputs.quantity) < 0 || !isFinite(parseFloat(inputs.quantity)) ||
-            !inputs.price || parseFloat(inputs.price) < 0 || !isFinite(parseFloat(inputs.quantity))) {
-                setShowWarningModal(true);
-            // alert(`
-            //     Please check your input!
-
-            //     - required fields cannot be empty;
-            //     - quantity and price cannot be negative or infinite.
-            // `)
+        if(
+            !(isValidf('txt', 'required', inputs.product, error, setError) &&
+            isValidf('txt', 'required', inputs.type, error, setError) &&
+            isValidf('num', 'required', inputs.quantity, error, setError) &&
+            isValidf('num', 'required', inputs.price, error, setError) &&
+            isValidf('num', 'optional', inputs.instock, error, setError) &&
+            isValidf('txt', 'optional', inputs.lastorder.slice(0, 10), error, setError) &&
+            isValidf('num', 'optional', inputs.waranty, error, setError) &&
+            isValidf('boolean', 'optional', inputs.forsale, error, setError) &&
+            isValidf('txt', 'optional', inputs.description, error, setError))
+        ) {
+            setShowWarningModal(true);
         } else {
             create(inputs)
             setInputs({
@@ -134,7 +137,7 @@ function NewRecord({create, showNewRecordModal, setShowNewRecordModal, types, se
 
                 <div className="description">
                     <label style={{marginTop:'15px'}} htmlFor="">Description</label>
-                    <textarea maxLength="245" value={inputs.description} onChange={(e) => formControl(e, 'description')} />
+                    <textarea maxLength="255" value={inputs.description} onChange={(e) => formControl(e, 'description')} />
                 </div>
             </div>
             <button className="form-button" onClick={handleCreate}>Add</button>
